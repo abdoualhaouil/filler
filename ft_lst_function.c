@@ -6,7 +6,7 @@
 /*   By: aalhaoui <aalhaoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 04:22:26 by aalhaoui          #+#    #+#             */
-/*   Updated: 2019/12/12 09:08:18 by aalhaoui         ###   ########.fr       */
+/*   Updated: 2019/12/13 06:21:01 by aalhaoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_list		*ft_lstnew(void const *content, size_t content_size)
 	if (!content)
 	{
 		new->content = NULL;
-		content_size = 0;
+		new->content_size = 0;
 		new->next = NULL;
 		return (new);
 	}
