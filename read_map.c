@@ -6,7 +6,7 @@
 /*   By: aalhaoui <aalhaoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 06:09:00 by aalhaoui          #+#    #+#             */
-/*   Updated: 2019/12/14 03:37:30 by aalhaoui         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:17:33 by aalhaoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int		**ft_check_box(t_coord *coord, t_list **list, int x, int y)
 		&& coord->map[coord->x + x][coord->y + y] == -1)
 	{
 		box = (int *)malloc(sizeof(int) * 3);
-		box[2] = coord->x + 1;
-		box[2] = coord->y + 1;
+		box[1] = coord->x + x;
+		box[2] = coord->y + y;
 		(coord->map)[coord->x + x][coord->y + y] += 1;
-		(*list) = stack_push((*list), coord, sizeof(int ) * 3);
+		(*list) = stack_push((*list), box, sizeof(int ) * 3);
 	}
 	return (coord->map);
 }
@@ -65,30 +65,33 @@ int		**ft_set_heatmap(int **map, t_list *list, int len_line, int len_coul)
 {
 	t_coord		*coord;
 	void			*tab;
+	t_list		*tmp;
 
-	coord = (t_coord *)malloc(sizeof(t_coord));
 	// while (list != NULL)
 	// {
-		tab = queue_pop(list);
-		dprintf(2, "%d\n", list != NULL);
-		coord->x = ((int *)tab)[1];
-		coord->y = ((int *)tab)[2];
-		coord->len_coul = len_coul;
-		coord->len_line = len_line;
-		coord->map = map;
-		map = ft_check_box(coord, &list, 0, 1);
-	 	map = ft_check_box(coord, &list, 0, -1);
-		map = ft_check_box(coord, &list, -1, 0);
-		map = ft_check_box(coord, &list, -1, 1);
-		map = ft_check_box(coord, &list, -1, -1);
-		map = ft_check_box(coord, &list, 1, 0);
-		map = ft_check_box(coord, &list, 1, 1);
-		map = ft_check_box(coord, &list, 1, -1);
-		while(list != NULL)
-		{
-			dprintf(2, "%d\n", ((int *)(list->content))[1]);
-			list = list->next;
-		}
+	coord = (t_coord *)malloc(sizeof(t_coord));
+	tab = queue_pop(list);
+	coord->x = ((int *)tab)[1];
+	coord->y = ((int *)tab)[2];
+	coord->len_coul = len_coul;
+	coord->len_line = len_line;
+	coord->map = map;
+	map = ft_check_box(coord, &list, 0, 1);
+	// map = ft_check_box(coord, &list, 0, -1);
+	// map = ft_check_box(coord, &list, -1, 0);
+	// map = ft_check_box(coord, &list, -1, 1);
+	// map = ft_check_box(coord, &list, -1, -1);
+	// map = ft_check_box(coord, &list, 1, 0);
+	// map = ft_check_box(coord, &list, 1, 1);
+	// map = ft_check_box(coord, &list, 1, -1);
+	free(coord);
+	free(tab);
+	tmp = list;
+	// while (tmp != NULL)
+	// {
+	// 	dprintf(2, "%p %d\n", (tmp->next), tmp != NULL);
+	// 	tmp = tmp->next;
+	// }
 	return (map);
 }
 
@@ -100,7 +103,7 @@ int		ft_read_map(void)
 	int		len_coul;
 	int		len_line;
 	int		player;
-	// int i = 0, j;
+	int i = 0, j;
 
 	len_coul = 0;
 	list = NULL;
@@ -120,17 +123,17 @@ int		ft_read_map(void)
 	free(buff);
 	map = ft_stock_heatmap(&list, len_line, len_coul);
 	map = ft_set_heatmap(map, list, len_coul, len_line);
-	// while (i < len_line)
-	// {
-	// 	j = 0;
-	// 	while (j < len_coul)
-	// 	{
-	// 		dprintf(2, "%d", map[i][j]);
-	// 		j++;
-	// 	}
-	// 	dprintf(2, "\n");
-	// 	i++;
-	// }
+	while (i < len_line)
+	{
+		j = 0;
+		while (j < len_coul)
+		{
+			dprintf(2, "%d", map[i][j]);
+			j++;
+		}
+		dprintf(2, "\n");
+		i++;
+	}
 	return (0);
 }
 

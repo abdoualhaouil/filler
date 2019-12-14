@@ -6,7 +6,7 @@
 /*   By: aalhaoui <aalhaoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 05:40:42 by aalhaoui          #+#    #+#             */
-/*   Updated: 2019/12/13 23:43:55 by aalhaoui         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:16:19 by aalhaoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list		*stack_push(t_list *list, void *content, size_t size)
 
 	if (!(new = ft_lstnew(content, size)))
 		return (NULL);
-	new->next = NULL;
-	list = new;
-	return (list);
+	(list != NULL) && (new->next = list);
+	(list == NULL) && (new->next = NULL);
+	return (new);
 }
