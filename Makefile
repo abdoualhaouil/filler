@@ -2,7 +2,8 @@ NAME= aalhaoui.filler
 
 SRC= ft_lst_function.c \
 	 read_map.c \
-	 stack_queue.c
+	 stack_queue.c \
+	 solve.c
 
 OBJ= $(SRC:.c=.o)
 
@@ -60,9 +61,13 @@ LIBSRC=	libft/ft_atoi.c \
 		libft/ft_toupper.c \
 		libft/ft_max.c \
 
+GNLSRC= get_next_line/get_next_line.c
+
 LIBOBJ= $(LIBSRC:.c=.o)
 
-CC= gcc
+GNLOBJ= $(GNLSRC:.c=.o)
+
+CC= gcc -g
 GCF= -Wall -Wextra -Werror
 
 %.o: %.c
@@ -70,9 +75,9 @@ GCF= -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME) : $(OBJ) filler.h 
+$(NAME) : $(OBJ) $(GNLOBJ) filler.h 
 	make -C libft
-	$(CC) $(GCF) $(OBJ) get_next_line/get_next_line.c libft/libft.a ft_printf/libftprintf.a -o $(NAME)
+	$(CC) $(GCF) $(OBJ) $(GNLOBJ) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
 
 clean:
 	make clean -C libft
@@ -81,3 +86,9 @@ clean:
 fclean: clean
 	make fclean -C libft
 	rm -fr $(NAME)
+make re:
+	make clean -C libft
+	rm -fr $(OBJ)
+	make fclean -C libft
+	rm -fr $(NAME)
+	make all
